@@ -1,0 +1,12 @@
+{
+  "name": "npci",
+  "version": "1.0.0",
+  "description": "national payment corporation of india",
+  "license": "ISC",
+  "author": "abhishek jaglan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
