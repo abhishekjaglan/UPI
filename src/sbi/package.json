@@ -1,0 +1,11 @@
+{
+  "name": "sbi",
+  "version": "1.0.0",
+  "description": "sbi bank",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "abhishek jaglan",
+  "license": "ISC"
+}
