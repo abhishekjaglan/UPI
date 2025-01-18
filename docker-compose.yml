@@ -1,0 +1,87 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: upi_user
+      POSTGRES_PASSWORD: upi_password
+      POSTGRES_DB: upi_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U upi_user -d upi_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  sbi:
+    build:
+      context: ./src/sbi
+    container_name: sbi
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://upi_user:upi_password@postgres:5432/upi_db
+
+  # axis:
+  #   build:
+  #     context: ./src/axis
+  #   container_name: axis
+  #   ports:
+  #     - "3002:3002"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_URL: postgresql://upi_user:upi_password@postgres:5432/upi_db
+
+  # upi:
+  #   build:
+  #     context: ./src/upi
+  #   container_name: upi
+  #   ports:
+  #     - "3003:3003"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_URL: postgresql://upi_user:upi_password@postgres:5432/upi_db
+
+  # npci:
+  #   build:
+  #     context: ./src/npci
+  #   container_name: npci
+  #   ports:
+  #     - "3004:3004"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_URL: postgresql://upi_user:upi_password@postgres:5432/upi_db
+
+  # kafka:
+  #   image: confluentinc/cp-kafka:latest
+  #   container_name: kafka
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #   ports:
+  #     - "9092:9092"
+
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:latest
+  #   container_name: zookeeper
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 2181
+  #   ports:
+  #     - "2181:2181"
+
+volumes:
+  postgres_data:
+    name: upi_postgres_data
