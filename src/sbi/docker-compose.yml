@@ -1,0 +1,26 @@
+services:
+  sbi-db:
+    image: postgres:latest
+    container_name: sbi-db
+    environment:
+      POSTGRES_USER: sbi_user
+      POSTGRES_PASSWORD: sbi_password
+      POSTGRES_DB: sbi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  sbi-service:
+    build:
+      context: .
+    container_name: sbi-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - sbi-db
+    environment:
+      DATABASE_URL: postgresql://sbi_user:sbi_password@sbi-db:5432/sbi_db
+
+volumes:
+  sbi_postgres_data:
