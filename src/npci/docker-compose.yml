@@ -1,0 +1,26 @@
+services:
+  npci-db:
+    image: postgres:latest
+    container_name: npci-db
+    environment:
+      POSTGRES_USER: npci_user
+      POSTGRES_PASSWORD: npci_password
+      POSTGRES_DB: npci_db
+    ports:
+      - "5437:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  npci-service:
+    build:
+      context: .
+    container_name: npci-service
+    ports:
+      - "3004:3004"
+    depends_on:
+      - npci-db
+    environment:
+      DATABASE_URL: postgresql://npci_user:npci_password@npci-db:5432/npci_db
+
+volumes:
+  npci_postgres_data:
