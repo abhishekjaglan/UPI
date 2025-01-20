@@ -1,0 +1,26 @@
+services:
+  upi-db:
+    image: postgres:latest
+    container_name: upi-db
+    environment:
+      POSTGRES_USER: upi_user
+      POSTGRES_PASSWORD: upi_password
+      POSTGRES_DB: upi_db
+    ports:
+      - "5436:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  upi-service:
+    build:
+      context: .
+    container_name: upi-service
+    ports:
+      - "3003:3003"
+    depends_on:
+      - upi-db
+    environment:
+      DATABASE_URL: postgresql://upi_user:upi_password@upi-db:5432/upi_db
+
+volumes:
+  upi_postgres_data:
