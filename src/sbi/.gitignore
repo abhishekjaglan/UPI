@@ -3,4 +3,5 @@ node_modules
 .env
 data
 prisma/migrations
-dist
+dist/*
+*.log

@@ -1,7 +1,7 @@
-const express = require("express")
-require("dotenv").config()
-const { PORT } = require("./util/config")
-
+const express = require("express");
+require("dotenv").config();
+const { PORT } = require("./util/config");
+const log = require('./logger/index');
 const app = express();
 
 app.listen(PORT, (error: Error) => {
@@ -9,5 +9,5 @@ app.listen(PORT, (error: Error) => {
         console.error("Error starting the server",error);
     }
     
-    console.log(`Starting the http server for sbi bank on PORT:${PORT}`);
+    log.info(`Starting the http server for sbi bank on PORT:${PORT}`);
 });
