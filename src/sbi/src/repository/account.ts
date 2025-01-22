@@ -34,7 +34,15 @@ export class AccountRepositry{
     }
 
     public async getAccount(id:Number){
+       try {
         
+       } catch (error: any) {
+           if(isPrismaError(error)){
+               throw new prismaError(error)
+           }
+           throw new Error(error);
+        
+       } 
     }
 
 }
